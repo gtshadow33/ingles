@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Verbos Irregulares</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-book-open"></i> Práctica de Verbos Irregulares</h1>
+            <p class="subtitle">Selecciona la cantidad de verbos y practica sus formas. ¡Cada verbo vale 1 punto!</p>
+        </header>
+
+        <main>
+            <!-- Sección de Configuración -->
+            <section id="setup-section" class="card">
+                <h2><i class="fas fa-cog"></i> Configuración</h2>
+                <div class="config-options">
+                    <div class="config-group">
+                        <label>¿Cuántos verbos quieres practicar?</label>
+                        <div class="count-buttons">
+                            <button class="count-btn" data-count="5">5 verbos</button>
+                            <button class="count-btn" data-count="10">10 verbos</button>
+                            <button class="count-btn active" data-count="20">20 verbos</button>
+                            <button class="count-btn" data-count="40">40 verbos</button>
+                            <button class="count-btn" data-count="80">80 verbos</button>
+                        </div>
+                    </div>
+
+                    <div class="config-group">
+                        <label for="difficulty">Dificultad:</label>
+                        <select id="difficulty">
+                            <option value="easy">Fácil (se muestra la forma base)</option>
+                            <option value="medium" selected>Media (se muestra pasado o participio)</option>
+                            <option value="hard">Difícil (se muestra cualquier forma)</option>
+                        </select>
+                    </div>
+
+                    <button id="start-btn" class="btn-primary">
+                        <i class="fas fa-play"></i> Empezar Práctica
+                    </button>
+                </div>
+            </section>
+
+            <!-- Sección de Práctica -->
+            <section id="practice-section" class="card hidden">
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <h2 id="current-verb-title">Práctica en curso</h2>
+                        <div class="score-display">
+                            <span id="current-score">0</span> / <span id="total-verbs">20</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="current-progress">Verbo 0 de 20</span>
+                    </div>
+                </div>
+
+                <div class="verb-practice">
+                    <div class="verb-question">
+                        <p id="question-text">Completa las formas del verbo:</p>
+                        <div class="verb-display" id="verb-display">
+                            <!-- Aquí se mostrará la forma conocida del verbo -->
+                        </div>
+                    </div>
+
+                    <div class="answer-form">
+                        <div class="form-group">
+                            <label for="base-form">Forma base (Infinitivo):</label>
+                            <input type="text" id="base-form" placeholder="Ej: be" autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="past-form">Pasado simple:</label>
+                            <input type="text" id="past-form" placeholder="Ej: was/were" autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="participle-form">Participio pasado:</label>
+                            <input type="text" id="participle-form" placeholder="Ej: been" autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="meaning-form">Significado en español:</label>
+                            <input type="text" id="meaning-form" placeholder="Ej: ser/estar" autocomplete="off">
+                        </div>
+
+                        <div class="form-actions">
+                            <button id="check-btn" class="btn-primary">
+                                <i class="fas fa-check"></i> Comprobar respuesta
+                            </button>
+                            <button id="skip-btn" class="btn-secondary">
+                                <i class="fas fa-forward"></i> Saltar verbo
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="feedback" class="feedback hidden">
+                        <!-- Aquí se mostrará el feedback -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Resultados -->
+            <section id="results-section" class="card hidden">
+                <h2><i class="fas fa-chart-line"></i> Resultados</h2>
+
+                <div class="results-summary">
+                    <div class="score-card">
+                        <div class="score-circle">
+                            <span id="final-score">0</span>
+                        </div>
+                        <p class="score-label">Puntuación</p>
+                        <p id="grade" class="grade">-</p>
+                    </div>
+
+                    <div class="stats">
+                        <div class="stat-item">
+                            <i class="fas fa-check-circle correct-icon"></i>
+                            <div>
+                                <span class="stat-value" id="correct-count">0</span>
+                                <span class="stat-label">Correctas</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-times-circle incorrect-icon"></i>
+                            <div>
+                                <span class="stat-value" id="incorrect-count">0</span>
+                                <span class="stat-label">Incorrectas</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-forward skip-icon"></i>
+                            <div>
+                                <span class="stat-value" id="skipped-count">0</span>
+                                <span class="stat-label">Saltadas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-details">
+                    <h3>Detalle de respuestas:</h3>
+                    <div id="results-list" class="results-list">
+                        <!-- Aquí se listarán los resultados -->
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="restart-btn" class="btn-primary">
+                        <i class="fas fa-redo"></i> Intentar de nuevo
+                    </button>
+                    <button id="new-practice-btn" class="btn-secondary">
+                        <i class="fas fa-cog"></i> Nueva configuración
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Creado para practicar verbos irregulares en inglés - Cada verbo correcto vale 1 punto</p>
+            <p class="note"><i class="fas fa-lightbulb"></i> Consejo: Para obtener la máxima puntuación, debes escribir
+                correctamente las 3 formas + la traducción.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
