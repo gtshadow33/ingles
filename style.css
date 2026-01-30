@@ -578,3 +578,50 @@ footer {
         flex-direction: column;
     }
 }
+
+/* Móviles muy pequeños */
+@media (max-width: 500px) {
+    body {
+        padding: 0;
+    }
+
+    .container {
+        margin: 0;
+        border-radius: 0;
+    }
+
+    header {
+        padding: 15px 10px;
+        border-radius: 0;
+    }
+
+    .card {
+        margin: 10px 0;
+        padding: 15px;
+        border-radius: 0;
+    }
+
+    .progress-container,
+    .verb-question,
+    .feedback,
+    .score-card,
+    .stat-item {
+        margin: 10px 0;
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .results-summary {
+        gap: 15px;
+        margin: 15px 0;
+    }
+
+    .action-buttons,
+    .form-actions {
+        gap: 10px;
+    }
+
+    footer {
+        padding: 15px 10px;
+    }
+}
