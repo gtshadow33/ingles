@@ -294,6 +294,8 @@ function startPractice() {
 
 // Función para mostrar el siguiente verbo
 function showNextVerb() {
+    checkBtn.disabled = false;
+    skipBtn.disabled = false;
     if (currentVerbIndex >= selectedVerbs.length) {
         showResults();
         return;
@@ -367,6 +369,8 @@ function updateProgress() {
 
 // Función para comprobar respuesta
 function checkAnswer() {
+    checkBtn.disabled = true;
+    skipBtn.disabled = true;
     const verb = selectedVerbs[currentVerbIndex];
     const userBase = baseFormInput.value;
     const userPast = pastFormInput.value;
@@ -440,6 +444,7 @@ function checkAnswer() {
 function showFeedback(isCorrect, verb, fieldResults = null) {
     feedbackEl.innerHTML = '';
     feedbackEl.classList.remove('hidden');
+
 
     if (isCorrect) {
         feedbackEl.classList.remove('incorrect');
