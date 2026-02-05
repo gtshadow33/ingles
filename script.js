@@ -124,8 +124,8 @@ const irregularVerbs = [
     { base: "wear", past: "wore", participle: "worn", meaning: "llevar puesto" },
     { base: "win", past: "won", participle: "won", meaning: "ganar" },
     { base: "write", past: "wrote", participle: "written", meaning: "escribir" },
-
 ];
+
 // Variables globales
 let selectedVerbs = [];
 let currentVerbIndex = 0;
@@ -244,15 +244,18 @@ function selectRandomVerbs(count) {
 
 // Función para determinar qué forma mostrar según dificultad
 function getQuestionType(difficulty) {
-    const types = ['base', 'past', 'participle'];
+    const types = ['base', 'past', 'participle', 'meaning']; // Agregado 'meaning'
 
     switch (difficulty) {
         case 'easy':
             return 'base'; // Siempre muestra la forma base
         case 'medium':
-            return types[Math.floor(Math.random() * 2) + 1]; // past o participle
+            // En medium, solo base, past o participle
+            const mediumTypes = ['base', 'past', 'participle'];
+            return mediumTypes[Math.floor(Math.random() * mediumTypes.length)];
         case 'hard':
-            return types[Math.floor(Math.random() * 3)]; // cualquiera
+            // En hard, puede ser cualquier forma incluida la traducción
+            return types[Math.floor(Math.random() * types.length)];
         default:
             return 'base';
     }
@@ -275,6 +278,10 @@ function displayVerbForm(verb, questionType) {
         case 'participle':
             formToShow = verb.participle;
             instruction = `Participio pasado: <strong>${verb.participle}</strong>`;
+            break;
+        case 'meaning':
+            formToShow = verb.meaning;
+            instruction = `Significado en español: <strong>${verb.meaning}</strong>`;
             break;
     }
 
@@ -359,6 +366,12 @@ function clearInputFields() {
     pastFormInput.classList.remove('correct', 'incorrect');
     participleFormInput.classList.remove('correct', 'incorrect');
     meaningFormInput.classList.remove('correct', 'incorrect');
+
+    // Habilitar todos los campos
+    baseFormInput.disabled = false;
+    pastFormInput.disabled = false;
+    participleFormInput.disabled = false;
+    meaningFormInput.disabled = false;
 }
 
 // Función para poner foco en el primer campo vacío
@@ -377,6 +390,10 @@ function focusFirstEmptyField() {
     } else if (currentQuestionType === 'participle') {
         participleFormInput.value = currentGivenForm;
         participleFormInput.disabled = true;
+        baseFormInput.focus();
+    } else if (currentQuestionType === 'meaning') {
+        meaningFormInput.value = currentGivenForm;
+        meaningFormInput.disabled = true;
         baseFormInput.focus();
     } else {
         baseFormInput.focus();
@@ -419,7 +436,9 @@ function checkAnswer() {
         participleCorrect = answersMatch(userParticiple, verb.participle);
     }
 
-    meaningCorrect = answersMatch(userMeaning, verb.meaning);
+    if (currentQuestionType !== 'meaning') {
+        meaningCorrect = answersMatch(userMeaning, verb.meaning);
+    }
 
     // Determinar si la respuesta es completamente correcta
     const allCorrect = baseCorrect && pastCorrect && participleCorrect && meaningCorrect;
@@ -456,6 +475,7 @@ function checkAnswer() {
     baseFormInput.disabled = false;
     pastFormInput.disabled = false;
     participleFormInput.disabled = false;
+    meaningFormInput.disabled = false;
 
     // Pasar al siguiente verbo después de un breve delay
     setTimeout(() => {
@@ -468,7 +488,6 @@ function checkAnswer() {
 function showFeedback(isCorrect, verb, fieldResults = null) {
     feedbackEl.innerHTML = '';
     feedbackEl.classList.remove('hidden');
-
 
     if (isCorrect) {
         feedbackEl.classList.remove('incorrect');
@@ -562,6 +581,7 @@ function skipVerb() {
     baseFormInput.disabled = false;
     pastFormInput.disabled = false;
     participleFormInput.disabled = false;
+    meaningFormInput.disabled = false;
 
     // Pasar al siguiente verbo
     currentVerbIndex++;
