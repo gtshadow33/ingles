@@ -214,15 +214,22 @@ function normalizeAnswer(answer) {
 }
 
 // Función para comparar respuestas
+// Función para comparar respuestas
 function answersMatch(userAnswer, correctAnswer) {
     const normalizedUser = normalizeAnswer(userAnswer);
     const normalizedCorrect = normalizeAnswer(correctAnswer);
 
+    // Si la respuesta del usuario está vacía, es incorrecta
+    if (!normalizedUser) return false;
+
+    // Si la respuesta correcta tiene alternativas (/)
     if (normalizedCorrect.includes('/')) {
         const alternatives = normalizedCorrect.split('/');
+        // Verificar si alguna alternativa coincide exactamente
         return alternatives.some(alt => normalizeAnswer(alt) === normalizedUser);
     }
 
+    // Si no hay alternativas, comparar directamente
     return normalizedUser === normalizedCorrect;
 }
 
